@@ -19,6 +19,20 @@ func main() {
 
 	defer db.Close()
 
+	stmt, err := db.Prepare("INSERT INTO user (name, email) VALUES (?, ?)")
+
+	if err != nil {
+		println(fmt.Sprintf("Error: %s", err))
+		os.Exit(1)
+	}
+
+	_, err = stmt.Exec("prepared", "mail")
+
+	if err != nil {
+		println(fmt.Sprintf("Error: %s", err))
+		os.Exit(1)
+	}
+
 	_, err = db.Exec("INSERT INTO user (name, email) VALUES (?, ?)", "John Doe", "mail")
 
 	if err != nil {
